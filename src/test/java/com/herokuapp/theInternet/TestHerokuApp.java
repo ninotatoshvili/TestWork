@@ -5,8 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.type;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -25,7 +24,7 @@ public class TestHerokuApp {
      public void AddRemoveTest() throws InterruptedException
      {
 
-      open("http://the-internet.herokuapp.com/");
+
          $(byText("Add/Remove Elements")).click();
          for(int i=1; i<=3;i++)
          {
@@ -35,7 +34,7 @@ public class TestHerokuApp {
          for(int i=3;i>=1;i--)
          {
 
-             $$("#elements button").findBy(text("Delete")).click();
+             $("#elements button").click();
              Thread.sleep(2000);
          }
 
@@ -44,7 +43,7 @@ public class TestHerokuApp {
      @Test
      public void EntryAdTest() throws InterruptedException
      {
-         open("http://the-internet.herokuapp.com/");
+
          $(byText("Entry Ad")).click();
          $(".modal-title").shouldHave(text("This is a modal window"));
          Thread.sleep(2000);
@@ -55,17 +54,23 @@ public class TestHerokuApp {
      @Test
     public void InputTest() throws InterruptedException
        {
-         open("http://the-internet.herokuapp.com/");
+
          $(byText("Inputs")).click();
          $(".example input").setValue("abc");
-         $(".example input").setValue("e-.");
-         $(".example input").setValue("e-.1");
-         $(".example input").setValue("12");
+         $(".example input").shouldHave(value(""));
+         $(".example input").setValue(";]").shouldHave(value(""));
+
+
          $(".example input").shouldHave(type("number"));
+            int numb=12;
+
+         $(".example input").setValue(String.valueOf(numb));
+
 
          $(".example input").toWebElement().sendKeys(Keys.ARROW_UP);
+         $(".example input").shouldHave(value(String.valueOf(numb+1)));
 
-         Thread.sleep(4000);
+           Thread.sleep(2000);
 
 
        }
